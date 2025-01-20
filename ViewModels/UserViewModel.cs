@@ -18,6 +18,7 @@ namespace GamingApp.ViewModels
         private readonly UserService _userService;
         private string _statusMessage;
         public ObservableCollection<User> Users { get; set; }
+        
         private Models.User _user;
         private readonly UserRepository _userRepository;
 
@@ -39,7 +40,46 @@ namespace GamingApp.ViewModels
                 }
             }
         }
+        public string Name
+        {
+            get => _user.Name;
+            set
+            {
+                if (_user.Name != value)
+                {
+                    _user.Name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
+        public string Username
+        {
+            get => _user.Username;
+            set
+            {
+                if (_user.Username != value)
+                {
+                    _user.Username = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Email
+        {
+            get => _user.Email;
+            set
+            {
+                if (_user.Email != value)
+                {
+                    _user.Email = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int Id => _user.Id;
         public UserViewModel()
         {
             string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "people.db3");

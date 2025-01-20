@@ -6,38 +6,29 @@
     <ContentPage.BindingContext>
         <vm:UserViewModel />
     </ContentPage.BindingContext>
-    <VerticalStackLayout>
-        <HorizontalStackLayout>
-            <Button x:Name="GCalderonBotonAgregar"
-                        Text="Añadir Persona"
-                        Grid.Row="1"
-                            TextColor="DarkCyan"
-                        Command="{Binding SaveCommand}" />
 
-            <Label x:Name="GCalderonStatus"
-                        Text="{Binding StatusMessage}"
-                       TextColor="DarkCyan"
-                       Grid.Row="2" />  
+    <CollectionView ItemsSource="{Binding Users}">
+        <CollectionView.EmptyView>
+            <Label Text="No users found" HorizontalOptions="Center" VerticalOptions="Center" />
+        </CollectionView.EmptyView>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <StackLayout Padding="10">
+                    <Entry Text="{Binding Name}" FontSize="20" TextColor="White"/>
+                    <Entry Text="{Binding Username}" FontSize="20" TextColor="Aqua"/>
+                    <Entry Text="{Binding Email}" FontSize="14" TextColor="Gray"/>
+                    <Button x:Name="GCalderonBotonAgregar"
+                                Text="Añadir Persona"
+                                Grid.Row="1"
+                                TextColor="DarkCyan"
+                                Command="{Binding SaveCommand}" />
+                    <Label x:Name="GCalderonStatus"
+                                Text="{Binding StatusMessage}"
+                               TextColor="DarkCyan"
+                               Grid.Row="2" />
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 
-            <Button x:Name="GCalderonBotonListar"
-                    Text="Revisar Listado de personas"
-                        Grid.Row="3"
-                        TextColor="DarkCyan"
-                        Command="{Binding GetAllPeopleCommand}" />
-        </HorizontalStackLayout>
-        <CollectionView ItemsSource="{Binding Users}">
-            <CollectionView.EmptyView>
-                <Label Text="No users found" HorizontalOptions="Center" VerticalOptions="Center" />
-            </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10">
-                        <Label Text="{Binding Name}" FontSize="20" TextColor="White"/>
-                        <Label Text="{Binding Email}" FontSize="14" TextColor="Gray"/>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
-   
 </ContentPage>

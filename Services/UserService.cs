@@ -1,9 +1,8 @@
-﻿using GamingApp.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-
+using GamingApp.Models;
 namespace GamingApp.Services
 {
     public class UserService
@@ -17,20 +16,12 @@ namespace GamingApp.Services
 
         public async Task<List<User>> GetUsersAsync()
         {
-            try
+            var url = "https://jsonplaceholder.typicode.com/users";
+            var response = await _httpClient.GetStringAsync(url);
+            return JsonSerializer.Deserialize<List<User>>(response, new JsonSerializerOptions
             {
-                var url = "https://jsonplaceholder.typicode.com/users";
-                var response = await _httpClient.GetStringAsync(url);
-                return JsonSerializer.Deserialize<List<User>>(response, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error fetching users: {ex.Message}");
-                return new List<User>();
-            }
+                PropertyNameCaseInsensitive = true
+            });
         }
     }
 }

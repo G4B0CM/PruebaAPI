@@ -91,5 +91,6 @@ namespace GamingApp.Repositories
                 StatusMessage = string.Format("Failed to delete {0}. Error: {1}", name, ex.Message);
             }
         }
+        
     }
 }

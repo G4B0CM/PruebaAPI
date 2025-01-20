@@ -10,6 +10,7 @@ using System.Windows.Input;
 using GamingApp.Repositories;
 using GamingApp.Models;
 using GamingApp.Services;
+using System.Text.Json;
 
 namespace GamingApp.ViewModels
 {
@@ -25,7 +26,7 @@ namespace GamingApp.ViewModels
         public ICommand SaveCommand { get; }
         public ICommand GetAllPeopleCommand { get; }
         public ICommand DeletePersonCommand { get; }
-
+        public ICommand FetchFromApiCommand { get; }
         public Models.User User
         {
             get => _user;
@@ -91,6 +92,7 @@ namespace GamingApp.ViewModels
             SaveCommand = new AsyncRelayCommand(Save);
             GetAllPeopleCommand = new AsyncRelayCommand(LoadPeople);
             DeletePersonCommand = new AsyncRelayCommand<Models.User>((person) => Eliminar(person));
+            FetchFromApiCommand = new AsyncRelayCommand(FetchFromApi);
         }
         public string StatusMessage
         {
@@ -191,6 +193,29 @@ namespace GamingApp.ViewModels
 
                 if (matchedPerson != null)
                     Users.Remove(matchedPerson);
+            }
+        }
+        private async Task FetchFromApi()
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetStringAsync("https://jsonplaceholder.typicode.com/users");
+
+                // Parsear la respuesta
+                var gamers = JsonSerializer.Deserialize<List<Models.User>>(response);
+
+                // Guardar los datos en la base de datos local
+                foreach (var gamer in gamers)
+                {
+                    _userRepository.agregarUsuario(gamer.Name, gamer.Username,gamer.Email);
+                }
+
+                StatusMessage = "Datos importados desde la API correctamente.";
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error al importar datos: {ex.Message}";
             }
         }
     }

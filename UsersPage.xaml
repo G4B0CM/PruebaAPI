@@ -6,29 +6,72 @@
     <ContentPage.BindingContext>
         <vm:UserViewModel />
     </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Button x:Name="GCalderonGuardarEnDB"
+            Text="GuardarEnDB"
+                Grid.Row="3"
+                TextColor="DarkCyan"
+                Command="{Binding FetchFromApiCommand}" />
+        <Button x:Name="GCalderonBotonListar"
+                Text="Revisar Listado de personas"
+                    Grid.Row="3"
+                    TextColor="DarkCyan"
+                    Command="{Binding GetAllPeopleCommand}" />  
+        <CollectionView ItemsSource="{Binding Users}">
+            <CollectionView.EmptyView>
+                <Label Text="No users found" HorizontalOptions="Center" VerticalOptions="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10">
+                        <Label Text="{Binding Name}" FontSize="20" TextColor="White"/>
+                        <Label Text="{Binding Username}" FontSize="20" TextColor="Aqua"/>
+                        <Label Text="{Binding Email}" FontSize="14" TextColor="Gray"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <CollectionView x:Name="peopleList" 
+                       Grid.Row="4"
+                       ItemsSource="{Binding Users}"
+                       HeightRequest="200"
+                       VerticalScrollBarVisibility="Default"
+                       SelectionMode="Single"
+                        SelectionChangedCommand="{Binding DeletePersonCommand}"
+                        SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+                      >
 
-    <CollectionView ItemsSource="{Binding Users}">
-        <CollectionView.EmptyView>
-            <Label Text="No users found" HorizontalOptions="Center" VerticalOptions="Center" />
-        </CollectionView.EmptyView>
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <StackLayout Padding="10">
-                    <Entry Text="{Binding Name}" FontSize="20" TextColor="White"/>
-                    <Entry Text="{Binding Username}" FontSize="20" TextColor="Aqua"/>
-                    <Entry Text="{Binding Email}" FontSize="14" TextColor="Gray"/>
-                    <Button x:Name="GCalderonBotonAgregar"
-                                Text="Añadir Persona"
-                                Grid.Row="1"
-                                TextColor="DarkCyan"
-                                Command="{Binding SaveCommand}" />
-                    <Label x:Name="GCalderonStatus"
-                                Text="{Binding StatusMessage}"
-                               TextColor="DarkCyan"
-                               Grid.Row="2" />
-                </StackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="3" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate >
+                <DataTemplate>
+                    <Frame BorderColor="DarkCyan" CornerRadius="10" Padding="20" Margin="5" BackgroundColor="DarkCyan">
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding Id}"
+                          FontSize="Small"
+                          HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                          WidthRequest="30"/>
+                            <Label Text="{Binding Name}"
+                          FontSize="Medium"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center" />
+                            <Label Text="{Binding Username}"
+                          FontSize="Medium"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center" />
+                            <Label Text="{Binding Email}"
+                                    FontSize="Medium"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+    
 
 </ContentPage>

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GamingApp.ViewModels"
+             x:Class="GamingApp.MainPage">
+
+    <ContentPage.BindingContext>
+        <vm:GamerViewModel />
+    </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Frame BorderColor="DarkCyan" CornerRadius="10" Padding="20" Margin="5" BackgroundColor="DarkCyan">
+            <HorizontalStackLayout>
+                <Frame WidthRequest="50" HeightRequest="50" BorderColor="Transparent" BackgroundColor="Transparent" 
+                        CornerRadius="50" HorizontalOptions="Center">
+                    <Image Source="https://www.patasencasa.com/sites/default/files/2024-07/meme-del-gato-riendo_0.jpg"
+                         HeightRequest="100"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                         WidthRequest="100"/>
+                </Frame>
+                <Frame WidthRequest="10" BackgroundColor="Transparent" BorderColor="Transparent"/>
+                <VerticalStackLayout>
+                    <Label Text="Gabriel Calderón"
+                           FontSize="Medium"/>
+                    <Label Text="20 años"
+                            FontSize="Small"/>
+                </VerticalStackLayout>
+
+            </HorizontalStackLayout>
+        </Frame>
+        <VerticalStackLayout>
+            <Frame CornerRadius="50" BackgroundColor="WhiteSmoke">
+                <Label Text="Sistema de ingreso de personas a una base de datos SQLite" HorizontalTextAlignment="Center" TextColor="DarkCyan" />
+            </Frame>
+
+            <VerticalStackLayout HorizontalOptions="FillAndExpand" Padding="5">
+                <Entry x:Name="GCalderonNombre" Text="{Binding name}"
+                     Placeholder="Ingresa un nombre" />
+
+                <Entry x:Name="GCalderonDescripcion" Text="{Binding description}"
+                    Placeholder="Ingresa una descripcion" />
+                <Button x:Name="GCalderonBotonAgregar"
+                    Text="Añadir Persona"
+                    Grid.Row="1"
+                        TextColor="DarkCyan"
+                    Command="{Binding SaveCommand}" />
+
+                <Label x:Name="GCalderonStatus"
+                    Text="{Binding StatusMessage}"
+                   TextColor="DarkCyan"
+                   Grid.Row="2" />
+
+                <Button x:Name="GCalderonBotonListar"
+                    Text="Revisar Listado de personas"
+                        Grid.Row="3"
+                        TextColor="DarkCyan"
+                        Command="{Binding GetAllPeopleCommand}" />
+
+                <CollectionView x:Name="peopleList" 
+                                    Grid.Row="4"
+                                    ItemsSource="{Binding PeopleList}"
+                                    HeightRequest="200"
+                                    VerticalScrollBarVisibility="Default"
+                                    SelectionMode="Single"
+                                SelectionChangedCommand="{Binding DeletePersonCommand}"
+             SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+                                   >
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="3" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate >
+                        <DataTemplate>
+                            <Frame BorderColor="DarkCyan" CornerRadius="10" Padding="20" Margin="5" BackgroundColor="DarkCyan">
+                                <HorizontalStackLayout>
+                                    <Label Text="{Binding Id}"
+                                       FontSize="Small"
+                                       HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"
+                                       WidthRequest="30"/>
+                                    <Label Text="{Binding name}"
+                                       FontSize="Medium"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                                    <Label Text="{Binding description}"
+                                       FontSize="Medium"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>

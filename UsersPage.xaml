@@ -1,0 +1,43 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GamingApp.UsersPage"
+             xmlns:vm="clr-namespace:GamingApp.ViewModels"
+             Title="Users">
+    <ContentPage.BindingContext>
+        <vm:UserViewModel />
+    </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Button x:Name="GCalderonBotonAgregar"
+                        Text="Añadir Persona"
+                        Grid.Row="1"
+                            TextColor="DarkCyan"
+                        Command="{Binding SaveCommand}" />
+
+            <Label x:Name="GCalderonStatus"
+                        Text="{Binding StatusMessage}"
+                       TextColor="DarkCyan"
+                       Grid.Row="2" />  
+
+            <Button x:Name="GCalderonBotonListar"
+                    Text="Revisar Listado de personas"
+                        Grid.Row="3"
+                        TextColor="DarkCyan"
+                        Command="{Binding GetAllPeopleCommand}" />
+        </HorizontalStackLayout>
+        <CollectionView ItemsSource="{Binding Users}">
+            <CollectionView.EmptyView>
+                <Label Text="No users found" HorizontalOptions="Center" VerticalOptions="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10">
+                        <Label Text="{Binding Name}" FontSize="20" TextColor="White"/>
+                        <Label Text="{Binding Email}" FontSize="14" TextColor="Gray"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+   
+</ContentPage>
